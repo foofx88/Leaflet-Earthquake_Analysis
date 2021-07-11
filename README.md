@@ -33,4 +33,4 @@ The following is a preview of how the Leaflet Plot works:
 <img src="snips/leafletdemo.gif" alt="demo" width="960" height="560">
 
 Users are able to interact with the map by selecting the toggle in order to show the map layer required<br>
-<a href="https://foofx88.github.io/leaflet-challenge/">Interact with the page here</a>
+
