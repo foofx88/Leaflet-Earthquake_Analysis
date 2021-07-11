@@ -34,3 +34,4 @@ The following is a preview of how the Leaflet Plot works:
 
 Users are able to interact with the map by selecting the toggle in order to show the map layer required<br>
 
+A config.js file is required with API_KEY from <a href="https://www.mapbox.com/">MapBox</a> in order for the map to work.
