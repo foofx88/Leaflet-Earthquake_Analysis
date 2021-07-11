@@ -64,10 +64,12 @@ function colorcode(quakes) {
     //            quakes <= 1 ? 'rgb(251,255,70)' :
     //                       'rgb(0,96,255)';
     // }
-    var qlocation = [];
+
 
 
 d3.json(queryUrl).then(function(data) {
+
+    var qlocation = [];
     // console.log(data.features); //to check data
     var feature = data.features;
     feature.forEach(resp =>{
@@ -91,8 +93,9 @@ d3.json(queryUrl).then(function(data) {
 
         }
     })
-    });
 
+
+    var earthquakes = L.layerGroup(qlocation).addTo(myMap);
 
     var legend = L.control({position: 'bottomright'});
 
@@ -115,13 +118,9 @@ d3.json(queryUrl).then(function(data) {
     legend.addTo(myMap);
 
     //For the Tectonic plates
-    var tectonic = d3.json(boundaries).then(function(bdata) {
+    d3.json(boundaries).then(function(bdata) {
     var bounds = L.geoJson(bdata ,{
-        color: "rgb(0,96,255)"
-
-    }).addTo(myMap); });
-
-    var earthquakes = L.layerGroup(location).addTo(myMap);
+        color: "rgb(0,96,255)"}).addTo(myMap); 
 
 
     var baseMaps = {
@@ -131,9 +130,12 @@ d3.json(queryUrl).then(function(data) {
 
     var overlayMaps = {
         Earthquakes: earthquakes,
-        TectonicLine: tectonic 
+        TectonicLine: bounds
       };
     
-    // Add the layer control to the map
-    L.control.layers(baseMaps, overlayMaps, {collapsed: false}).addTo(myMap);
+    // Adding layer to control the map
+        L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 
+
+    });
+});
