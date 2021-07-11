@@ -79,7 +79,8 @@ d3.json(queryUrl).then(function(data) {
         // console.log(magnitude); //to check
         if(geometry){
             circle_layer = L.circle([geometry.coordinates[1], geometry.coordinates[0]],{
-                color: colorcode(magnitude), //calling colorcode function to set color according to magnitude
+                //calling colorcode function to set color according to magnitude
+                color: colorcode(magnitude), 
                 fillcolor: colorcode(magnitude),
                 fillOpacity: 1,
                 radius : magnitude * 15000
