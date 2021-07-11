@@ -1,6 +1,6 @@
 //obtain url for geojson data
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
-var boundaries = "static/data/PB2002_boundaries.json"
+var boundaries = "../Leaflet-Step-2/static/data/PB2002_boundaries.json"
 
 //create streetmap map layer
 var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
