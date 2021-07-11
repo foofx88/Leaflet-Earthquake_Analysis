@@ -1,5 +1,6 @@
 //obtain url for geojson data
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+var boundaries = "static/data/PB2002_boundaries.json"
 
 //create streetmap map layer
 var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -11,10 +12,20 @@ var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}
     accessToken: API_KEY
   });
 
+//create satelite map layer
+var satellite = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+  attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+  tileSize: 512,
+  maxZoom: 18,
+  zoomOffset: -1,
+  id: "satellite-streets-v9",
+  accessToken: API_KEY
+})
+
 // Create myMap to set the whole layout for the map
 var myMap = L.map("map", {
-    center: [37.09, -95.71],
-        zoom: 3,
+    center: [25, -30],
+        zoom: 2.5,
         layers: [streetmap]
       });
 
@@ -53,6 +64,8 @@ function colorcode(quakes) {
     //            quakes <= 1 ? 'rgb(251,255,70)' :
     //                       'rgb(0,96,255)';
     // }
+    var qlocation = [];
+
 
 d3.json(queryUrl).then(function(data) {
     // console.log(data.features); //to check data
@@ -66,12 +79,15 @@ d3.json(queryUrl).then(function(data) {
             circle_layer = L.circle([geometry.coordinates[1], geometry.coordinates[0]],{
                 color: colorcode(magnitude), //calling colorcode function to set color according to magnitude
                 fillcolor: colorcode(magnitude),
+                fillOpacity: 1,
                 radius : magnitude * 15000
 
-            }).addTo(myMap);
+            });
             
             circle_layer.bindPopup(`${resp.properties.title} <hr> 
-            Occured On: ${new Date(resp.properties.time).toLocaleString()}`).addTo(myMap);
+            Occured On: ${new Date(resp.properties.time).toLocaleString()}`);
+            
+            qlocation.push(circle_layer);
 
         }
     })
@@ -97,3 +113,27 @@ d3.json(queryUrl).then(function(data) {
     };
     
     legend.addTo(myMap);
+
+    //For the Tectonic plates
+    var tectonic = d3.json(boundaries).then(function(bdata) {
+    var bounds = L.geoJson(bdata ,{
+        color: "rgb(0,96,255)"
+
+    }).addTo(myMap); });
+
+    var earthquakes = L.layerGroup(location).addTo(myMap);
+
+
+    var baseMaps = {
+        Street : streetmap,
+        Satellite : satellite
+    };
+
+    var overlayMaps = {
+        Earthquakes: earthquakes,
+        TectonicLine: tectonic 
+      };
+    
+    // Add the layer control to the map
+    L.control.layers(baseMaps, overlayMaps, {collapsed: false}).addTo(myMap);
+
