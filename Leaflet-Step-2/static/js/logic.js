@@ -106,7 +106,8 @@ d3.json(queryUrl).then(function(data) {
             grades = ["<= 1", "<= 2", "<= 3", "<= 4", "<= 5", ">= 6"],
             labels = ['<strong>Magnitude</strong>'];
     
-        // loop through our density intervals and generate a label with a colored square for each interval
+    // loop through our density intervals and generate a label with a 
+    //colored square for each interval
         for (var i = 0; i < grades.length; i++) {
             div.innerHTML +=
                 labels.push('<i style="background:' + colorcode(i+1) + '"></i> ' +
