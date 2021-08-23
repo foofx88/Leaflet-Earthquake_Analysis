@@ -1,3 +1,6 @@
+<h3>Leaflet Demo - Earthquakes</h3>
+<hr>
+
 <img src="snips/1-Logo.png" alt="Logo" width="200" height="120" align="right">
 
 Using the Earthquake dataset provided from <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson">USGS </a>, the data comes in the form of geojson and is then presented to the HTML file via Javascript using D3.json() <br>
